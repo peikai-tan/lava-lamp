@@ -2,8 +2,8 @@ let blurH, blurV, contrast;
 let blurLevel = 2;
 let particleSize = 20;
 
-let width = 0;
-let height = 0;
+let width = 400;
+let height = 800;
 let resolution = 10;
 
 let gravity;
@@ -26,15 +26,15 @@ function preload() {
 
 function setup() {
   frameRate(fr);
-  width = windowWidth;
-  height = windowHeight;
-  particleSize = height / 40;
 
   gravity = createVector(0, 0.35);
   friction = 0.3;
   elasticity = 0.9;
 
   cnv = createCanvas(width, height);
+  var x = (windowWidth - width) / 2;
+  var y = (windowHeight - height) / 2;
+  cnv.position(x, y);
   quadTree = new QuadTree(0, 0, width, height);
 
   for (let y = height - particleSize; y > height / 2; y -= particleSize) {
