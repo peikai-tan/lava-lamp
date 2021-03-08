@@ -2,8 +2,8 @@ let blurH, blurV, contrast;
 let blurLevel = 2;
 let particleSize = 20;
 
-let width = 400;
-let height = 800;
+let width = 0;
+let height = 0;
 let resolution = 10;
 
 let gravity;
@@ -26,6 +26,9 @@ function preload() {
 
 function setup() {
   frameRate(fr);
+  width = windowWidth;
+  height = windowHeight;
+  particleSize = height / 40;
 
   gravity = createVector(0, 0.35);
   friction = 0.3;
