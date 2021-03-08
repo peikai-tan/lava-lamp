@@ -67,7 +67,7 @@ function setup() {
 
 function draw() {
   background(255);
-  pg.background(255);
+  pg.background("lightyellow");
 
   noStroke();
   for (let p of particles) {
@@ -75,7 +75,7 @@ function draw() {
     heatMap.heatUp(p);
     p.move();
     // p.show();
-    pg.fill(0);
+    pg.fill("lightgreen");
     pg.ellipse(p.pos.x, p.pos.y, p.diameter);
   }
   quadTree.checkCollision();
