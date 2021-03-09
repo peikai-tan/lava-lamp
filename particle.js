@@ -95,18 +95,14 @@ class Particle {
     this.pos.x = max(this.radius, min(this.pos.x, width - this.radius));
     this.pos.y = max(this.radius, min(this.pos.y, height - this.radius));
 
-    this.changes.mult(0.9994);
+    if (this.changes.mult(0.9994).mag() < 0.0001) this.changes.mult(0);
 
     this.acc.add(this.changes);
     this.acc.mult(1 - this.friction);
 
     this.vel = this.vel.add(this.acc);
-    this.vel.mult(1 - this.friction);
+    if (this.vel.mult(1 - this.friction).mag() < 0.1) this.vel.mult(0);
 
-    if (this.vel.mag() < 0.1) {
-      this.vel.mult(0);
-      return;
-    }
-    this.pos = this.pos.add(this.vel);
+    this.pos.add(this.vel);
   }
 }
