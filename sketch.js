@@ -9,8 +9,9 @@ let resolution = 10;
 let gravity;
 let friction;
 let elasticity;
+let magBias;
 
-let fr = 30;
+let fr = 60;
 let cnv;
 
 let particles = [];
@@ -30,6 +31,7 @@ function setup() {
   gravity = createVector(0, 0.35);
   friction = 0.3;
   elasticity = 0.9;
+  magBias = 120000;
 
   cnv = createCanvas(width, height);
   var x = (windowWidth - width) / 2;
@@ -48,8 +50,6 @@ function setup() {
 
   pg = createGraphics(width, height);
 
-  noStroke();
-
   pass1 = createGraphics(width, height, WEBGL);
   pass2 = createGraphics(width, height, WEBGL);
   pass3 = createGraphics(width, height, WEBGL);
@@ -58,24 +58,17 @@ function setup() {
   pass2.noStroke();
   pass3.noStroke();
 
-  // particles.push(
-  //   new Particle(width / 2, height, particleSize, gravity, friction)
-  // );
-
-  heatMap = new HeatMap(width, height, resolution);
+  heatMap = new HeatMap(width, height, resolution, magBias);
 }
 
 function draw() {
-  background(255);
-  pg.background("lightyellow");
+  pg.background(255);
 
-  noStroke();
   for (let p of particles) {
     quadTree.insert(p);
     heatMap.heatUp(p);
     p.move();
-    // p.show();
-    pg.fill("lightgreen");
+    pg.fill("red");
     pg.ellipse(p.pos.x, p.pos.y, p.diameter);
   }
   quadTree.checkCollision();
@@ -90,7 +83,7 @@ function draw() {
   // send the size of the texels
   // send the blur direction that we want to use [1.0, 0.0] is horizontal
   blurH.setUniform("tex0", pg);
-  blurH.setUniform("texelSize", [blurLevel / width, 0.7 / height]);
+  blurH.setUniform("texelSize", [blurLevel / width, blurLevel / height]);
   blurH.setUniform("direction", [1.0, 0.0]);
 
   // we need to make sure that we draw the rect inside of pass1

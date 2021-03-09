@@ -1,7 +1,3 @@
-function mod(n, m) {
-  return ((n % m) + m) % m;
-}
-
 class Particle {
   constructor(x, y, diameter, gravity, friction) {
     this.pos = createVector(x, y);
@@ -95,10 +91,6 @@ class Particle {
     // keeping between width and height
     this.pos.x = max(this.radius, min(this.pos.x, width - this.radius));
     this.pos.y = max(this.radius, min(this.pos.y, height - this.radius));
-
-    if (this.changes.mag() < 0.0001) {
-      this.changes.mult(0);
-    }
 
     this.changes.mult(0.9994);
 

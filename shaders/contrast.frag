@@ -8,7 +8,7 @@ uniform sampler2D tex0;
 
 
 vec3 adjustContrast(vec3 color, float value) {
-  return 0.5 + (1.0 + value) * (color - 0.5);
+  return 0.1 + (1.0 + value) * (color - 0.5);
 }
 
 

@@ -1,11 +1,13 @@
 class Heat {
-  constructor(x, y, resolution, magnitude) {
+  constructor(x, y, resolution, magnitude, magBias) {
     this.x = x;
     this.y = y;
     this.beginX = x - resolution;
     this.beginY = y - magnitude * resolution;
     this.resolution = resolution;
     this.magnitude = magnitude;
+
+    this.magBias = magnitude / magBias;
 
     this.height = this.y - this.beginY;
   }
@@ -29,13 +31,15 @@ class Heat {
 }
 
 class HeatMap {
-  constructor(width, height, resolution) {
+  constructor(width, height, resolution, magBias) {
     this.width = width;
     this.height = height;
 
     this.resolution = resolution;
     this.heats = [];
     this.fill();
+
+    this.magBias = magBias;
   }
 
   fill() {
@@ -47,15 +51,16 @@ class HeatMap {
       let x2 = x * x;
       let y = a * x2;
       let mag = (100 - y) / this.resolution;
-      this.heats.push(new Heat(w * this.resolution, h, this.resolution, mag));
+      this.heats.push(
+        new Heat(w * this.resolution, h, this.resolution, mag, magBias)
+      );
     }
   }
 
   heatUp(p) {
     for (let heat of this.heats) {
       if (heat.contains(p)) {
-        p.changes.y +=
-          (((heat.height - p.pos.y) / heat.height) * heat.magnitude) / 120000;
+        p.changes.y += ((heat.height - p.pos.y) / heat.height) * heat.magBias;
         return;
       }
     }
