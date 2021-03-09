@@ -10,8 +10,6 @@ class Particle {
     this.changes = createVector(0, 0);
     this.friction = friction;
     this.elasticity = elasticity;
-
-    this.atWall = false;
   }
 
   rotate(velocity, angle) {
@@ -22,13 +20,15 @@ class Particle {
     return rotatedVelocities;
   }
 
-  collides(p) {
-    return this.pos.dist(p.pos) < this.radius + p.radius;
-  }
-
   resolvePen(p) {
     let dist = p5.Vector.sub(this.pos, p.pos);
     let depth = this.radius + p.radius - dist.mag();
+
+    //Check collision
+    if (depth <= 0) {
+      //No collision
+      return false;
+    }
 
     if (this.atFloor) {
       dist.normalize().mult(depth);
@@ -41,6 +41,9 @@ class Particle {
       this.pos.add(dist);
       p.pos.add(dist.mult(-1));
     }
+
+    // Collision
+    return true;
   }
 
   resolveCollision(p) {

@@ -103,8 +103,7 @@ class QuadTree {
   checkCollision() {
     for (let i = 0; i < this.particles.length; i++) {
       for (let j = i + 1; j < this.particles.length; j++) {
-        if (this.particles[i].collides(this.particles[j])) {
-          this.particles[i].resolvePen(this.particles[j]);
+        if (this.particles[i].resolvePen(this.particles[j])) {
           this.particles[i].resolveCollision(this.particles[j]);
         }
       }

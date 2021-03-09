@@ -74,7 +74,6 @@ function draw() {
   quadTree.checkCollision();
 
   quadTree.empty();
-  // heatMap.show();
 
   // set the shader for our first pass
   pass1.shader(blurH);
